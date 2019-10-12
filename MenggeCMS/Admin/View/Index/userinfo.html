@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+
+	<link href="__STATIC__/admin/new/simpleboot/themes/flat/theme.min.css" rel="stylesheet">
+    <link href="__STATIC__/admin/new/simpleboot/css/simplebootadmin.css" rel="stylesheet">
+    <link href="__STATIC__/admin/new/js/artDialog/skins/default.css" rel="stylesheet" />
+    <link href="__STATIC__/admin/new/simpleboot/font-awesome/4.2.0/css/font-awesome.min.css"  rel="stylesheet" type="text/css">
+    <style>
+		.length_3{width: 180px;}
+	</style>
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="__STATIC__/admin/new/simpleboot/font-awesome/4.2.0/css/font-awesome-ie7.min.css">
+	<![endif]-->
+<script type="text/javascript">
+//全局变量
+var GV = {
+    DIMAUB: "__ROOT__/",
+    JS_ROOT: "statics/js/",
+    TOKEN: ""
+};
+</script>
+<!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="__STATIC__/admin/new/js/jquery.js"></script>
+    <script src="__STATIC__/admin/new/js/wind.js"></script>
+    <script src="__STATIC__/admin/new/simpleboot/bootstrap/js/bootstrap.min.js"></script>
+    <script src="__STATIC__/js/jquery.validate.js" type="text/javascript"></script> 
+<if condition="APP_DEBUG">
+	<style>
+		#think_page_trace_open{
+			z-index:9999;
+		}
+	</style>
+
+</if>
+
+<script type="text/javascript">  
+  //设置默认,页面加载时恢复默认选项。  
+function region_default() {  
+    $("option[value='-1']").attr('selected','selected');  
+  }  
+  function setregion(num,address_id) {  
+     var next=num+1;  
+     $.ajax({  
+        type:'POST',  
+        //设置json格式,接收返回数组。  
+        dataType:'json',  
+        url:"{:U('cloud/get_region')}",  
+        //ajax传递当前选项的value值,也就是当前的region_id。  
+        data:'region_id='+$('#region_'+num+'_'+address_id).val(),  
+        success:function(msg) {  
+        //如果返回值不为空则执行。  
+			if (msg!=null) {  
+	            var option_str='';  
+	            //循环书写下一个select中要添加的内容。并添加name标记。  
+				for (var i=0; i<msg.length; i++) {  
+	                 option_str+='<option name="region_'+next+'"value="'+msg[i].id+'">'+msg[i].lname+'</option>';  
+	            }  
+	            //删除下一个select中标记name为next的内容。  
+	            $("option[name='region_"+next+"']").remove();  
+	            //向下一个select中添加书写好的内容。  
+	            $('#region_'+next+'_'+address_id).append(option_str);  
+           }else{  
+                //如果返回值为空,则移除所有带标记的option,恢复默认选项。  
+				for (var i=next; i<=4; i++) {  
+                 $("option[name='region_"+i+"']").remove();     
+                }  
+           }  
+        }  
+       
+     })  
+  }  
+</script>  
+
+
+	</head>
+<body class="J_scroll_fixed" onload="region_default();">
+<div class="wrap J_check_wrap">
+   <ul class="nav nav-tabs">
+     <li class="active"><a href="{:U('Index/userinfo',array('id'=>$_SESSION[admin][id]))}">修改信息</a></li>
+     <li><a href="{:U('Index/setpw')}">修改密码</a></li>
+  </ul>
+  <div class="common-form">
+    <form method="post" class="form-horizontal J_ajaxForm" action="{:U('Index/userinfo_post',array('id'=>$data['id']))}" id="memberForm">
+      <div class="table_list">
+        <table cellpadding="2" cellspacing="2" class="table_form" width="100%">
+          <tbody>
+            <tr>
+              <td width="180">用户名:</td>
+              <td>
+				<input type="text" id="username" class="input" name="username" value="{$data.username}" readonly="true">
+			  </td>
+            </tr>
+            <tr>
+              <td width="180">昵称:</td>
+              <td>
+				<input type="text" id="nickname" class="input" name="nickname" value="{$data.nickname}">
+			  </td>
+            </tr>
+            <tr>
+              <td width="180">E-mail:</td>
+              <td>
+				<input type="text" id="email" class="input" name="email" value="{$data.email}">
+			  </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn_submit J_ajax_submit_btn">更新</button>
+            <a class="btn" href="__URL__">返回</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--JS验证-->
+<script>
+$(function(){
+	$("#memberForm").validate({
+		rules: {
+			nickname:{
+				required:false,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+		},
+		messages:{
+			email:{
+				required:"E-mial不能为空",
+				email:"E-mail格式错误",
+			},
+		}
+	})
+})
+</script>
+</body>
+</html>

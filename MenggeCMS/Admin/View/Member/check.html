@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+
+	<link href="__STATIC__/admin/new/simpleboot/themes/flat/theme.min.css" rel="stylesheet">
+    <link href="__STATIC__/admin/new/simpleboot/css/simplebootadmin.css" rel="stylesheet">
+    <link href="__STATIC__/admin/new/js/artDialog/skins/default.css" rel="stylesheet" />
+    <link href="__STATIC__/admin/new/simpleboot/font-awesome/4.2.0/css/font-awesome.min.css"  rel="stylesheet" type="text/css">
+    <style>
+		.length_3{width: 180px;}
+	</style>
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="__STATIC__/admin/new/simpleboot/font-awesome/4.2.0/css/font-awesome-ie7.min.css">
+	<![endif]-->
+<script type="text/javascript">
+//全局变量
+var GV = {
+    DIMAUB: "__ROOT__/",
+    JS_ROOT: "Static/admin/new/js/",
+    TOKEN: ""
+};
+</script>
+<!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="__STATIC__/admin/new/js/jquery.js"></script>
+    <script src="__STATIC__/admin/new/js/wind.js"></script>
+    <script src="__STATIC__/admin/new/simpleboot/bootstrap/js/bootstrap.min.js"></script>
+<if condition="APP_DEBUG">
+	<style>
+		#think_page_trace_open{
+			z-index:9999;
+		}
+	</style>
+
+</if>
+	</head>
+<body class="J_scroll_fixed">
+<div class="wrap J_check_wrap">
+   <ul class="nav nav-tabs">
+     <li><a href="{:U('Member/index')}">本站会员</a></li>
+	 <li class="active"><a href="{:U('Member/check')}">审核会员</a></li>
+     <li><a href="{:U('Member/add')}">添加会员</a></li>
+  </ul>
+   <div class="table_list">
+   <table width="100%" cellspacing="0" class="table table-hover">
+        <thead>
+          <tr>
+            <th width="50">ID</th>
+            <th>用户名</th>
+            <th>E-mail</th>
+			<th>性别</th>
+			<th>真实姓名</th>
+			<th>注册时间</th>
+            <th>最后登录</th>
+            <th>身份证号</th>
+			<th>登录次数</th>
+			<th>状态</th>
+            <th width="120">管理操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        <foreach name="data" item="vo">
+          <tr>
+            <td>{$vo.id}</td>
+            <td>{$vo.username}</td>
+            <td>{$vo.email}</td>
+			<td>
+				<if condition="$vo['sex'] eq 1">
+				男
+				<else />
+				女
+				</if>
+			</td>
+			<td>{$vo.truename}</td>
+			<td>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+            <td>
+	            <if condition="$vo['lastlogintime'] eq 0">
+	            该用户还没登陆过
+	            <else />
+	            {$vo.lastlogintime|date="Y-m-d H:i:s",###}
+	            </if>
+            </td>
+            <td>{$vo.carid}</td>
+			<td>{$vo.logtimes}</td>
+			<td>
+				<switch name="vo.status">
+					<case value="0"><input type="button" tes="0" value="停用" onclick="changestatus({$vo.id},{$vo.status})" /></case>
+					<case value="1"><input type="button" tes="1" value="启用" onclick="changestatus({$vo.id},{$vo.status})" /></case>
+					<default/><input type="button" tes="3" value="启用" onclick="changestatus({$vo.id},{$vo.status})" />
+				</switch>
+			</td>
+            <td>
+	            <a href='{:U("Member/edit",array("id"=>$vo["id"]))}'>修改</a> | 
+	            <a class="J_ajax_del" href="{:U('Member/delete',array('id'=>$vo['id']))}">删除</a>
+            </td>
+          </tr>
+         </foreach>
+        </tbody>
+      </table>
+      <div class="pagination">{$page}</div>
+   </div>
+</div>
+<script src="__STATIC__/admin/new/js/common.js"></script>
+<script>
+	function changestatus(id,status){
+		if(status==0){
+			var test = "确定要启用用该账号？";
+		}else{
+			var test = "确定要停用该账号？";
+		}
+		if(confirm(test)){
+			$.ajax({
+			type:"post",
+			url:"{:U('Member/updatestatus')}",
+			data:"id="+id+"&status="+status,
+			success:function(msg){
+				if(msg==1){
+					alert("更改成功");
+					window.location.reload();
+				}else{
+					alert("更改失败!");
+					window.location.reload();
+				}
+			}
+			})
+		}else{
+			return false;
+		}
+	}
+</script>
+</body>
+</html>

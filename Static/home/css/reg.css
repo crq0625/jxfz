@@ -1,0 +1,10 @@
+body {
+    background-color: #FFF;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+.reg_from {
+    margin: 0 auto;
+    max-width: 330px;
+    padding: 15px;
+}

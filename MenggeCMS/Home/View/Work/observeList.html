@@ -1,0 +1,216 @@
+<include file="Public:header" />
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="container">
+	<div class="days-header">
+		<h1 class="days-title">每日{$system_name}</h1>
+		<p class="lead days-description">{$system_name}时间练习作业</p>
+		<div class="row">
+			<div class="col-md-8 days-main">
+				<div class="days-post">
+					<div class="row">
+						<div class="col-xs-8">
+							<h3>{$addtime|date='Y年m月d日',###}</h3>
+						</div>
+						<div class="col-xs-4" style="text-align:right;padding-top:18px;">
+							<input type="checkbox" id="my-checkbox" data-on-text="浏览" data-off-text="编辑" data-off-color="success">
+							<script>
+								 //编辑开关
+								$("#my-checkbox").bootstrapSwitch();
+								$('#my-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+									if (state) window.location.href = "{:U('Work/worklist')}" + '&chooseDate={$addtime}';
+									else window.location.href = "{:U('Work/edit')}" + '&chooseDate={$addtime}';
+								});
+							</script>
+						</div>
+					</div>
+					<ul id="myTab" class="nav nav-tabs">
+						<li>
+							<a href="{:U('Work/edit')}">
+         时间{$system_name}
+      </a>
+						</li>
+						<li><a href="{:U('Work/eventList')}">事件{$system_name}</a></li>
+						<li class="active"><a href="{:U('Work/observeList')}">观察者{$system_name}</a></li>
+					</ul>
+					<!--观察者具象开始-->
+					<div class="tab-pane">
+						<div class="observer">
+							
+								<table class="table table-bordered">
+									<caption style="margin:0;padding:0px;padding-top:5px;">案例主体：{$row.subject}
+										<p style="">目标：{$row.target}
+											<p>
+									</caption>
+									<a class="btn btn-default" href="{:U('Work/publishObserve'," workId=".$row['id'])}" role="button" style="float:right;margin-top:10px;">发布</a>
+									<thead>
+										<tr>
+											<th colspan="2">被{$system_name}人</th>
+											<th colspan="3">{$system_name}支持人</th>
+										</tr>
+										<tr>
+											<th>行动、事实</th>
+											<th>思想</th>
+											<th>行动、事实</th>
+											<th>思想</th>
+											<th>操作</th>
+										</tr>
+
+									</thead>
+
+									<tbody>
+										<foreach name="oblist" item="r">
+											<if condition="$r['edit'] == 1">
+										<form method="post" action="{:U('Work/editObserveCont','id='.$r[id])}">
+									</if>
+									<tr>
+
+										<td>
+											<if condition="$r['edit'] == 1">
+												<textarea class="form-control" rows="3" name="observe_actions">{$r.observe_actions}</textarea>
+											<else /> {$r.observe_actions}
+										</td>
+										</if>
+										<td>
+											<if condition="$r['edit'] == 1">
+												<textarea class="form-control" rows="3" name="observe_think">{$r.observe_think}</textarea>
+											<else /> {$r.observe_think}
+											</if>
+										</td>
+										<td>
+											<if condition="$r['edit'] == 1">
+												<textarea class="form-control" rows="3" name="observe_actions1">{$r.observe_actions1}</textarea>
+											<else /> {$r.observe_actions1}
+											</if>
+										</td>
+										<td>
+											<if condition="$r['edit'] == 1">
+												<textarea class="form-control" rows="3" name="observe_think1">{$r.observe_think1}</textarea>
+											<else /> {$r.observe_think1}
+											</if>
+										</td>
+										<td>
+											<if condition="$r['edit'] == 1">
+												<input class="btn btn-success btn-sm" style="height:70px;" type="submit" value="保存">
+											<else />
+												<a class="btn btn-info btn-sm" href="{:U('Work/editObserve','id='.$r['id'])}">编辑</a>
+												<br><a class="btn btn-danger btn-sm" style="margin-top:2px;" href="{:U('Work/observeDel','id='.$r['id'])}" onclick="return confirm('确定要删除吗?');">删除</a>
+											</if>
+										</td>
+									</tr>
+									<if condition="$r['edit'] == 1">
+										</form>
+									</if>
+											
+											
+										</foreach>
+										<form method="post" action="{:U('Work/addobserve')}">
+										<tr>
+											<th>
+												<textarea rows="3" class="form-control" rows="3" name="observe_actions"></textarea>
+											</th>
+											<th>
+												<textarea rows="3" class="form-control" rows="3" name="observe_think"></textarea>
+											</th>
+											<th>
+												<textarea rows="3" class="form-control" rows="3" name="observe_actions1"></textarea>
+											</th>
+											<th>
+												<textarea rows="3" class="form-control" rows="3" name="observe_think1"></textarea>
+											</th>
+											<th>
+												<input type="submit" class="btn btn-success" style="height:90px;" value="创建">
+
+											</th>
+										</tr>
+										</form>
+
+									</tbody>
+									<!--<tfoot>
+											<tr>
+												<th>
+													总结：
+
+												</th>
+												<th colspan="3">
+													<input type="text" class="form-control" value="{$summ}" placeholder="填写总结" name="observe_summary">
+
+												</th>
+
+											</tr>
+
+										</tfoot>-->
+
+								</table>
+
+							
+						</div>
+
+					</div>
+					<!--观察者具象结束-->
+
+					<form action="{:U('Work/addsum')}" method="post">
+						案例主体:
+						<input type="text" name="who" class="form-control" value="{$row.subject}"> 目标:
+						<input type="text" name="goal" class="form-control" value="{$row.target}">
+						<h4>总结</h4>
+						<p>
+							<textarea name="summary" class="form-control">{$row.summary}</textarea>
+						</p>
+						<input type="hidden" value="{$workId}" name="workId" />
+						<input type="submit" class="btn btn-success" value="提交">
+					</form>
+
+				</div>
+				<hr>
+			</div>
+			<div style="display:none;">
+				<div class="col-md-3 col-md-offset-1 days-sidebar">
+					<div class="sidebar-module sidebar-module-inset">
+						<h3>日期选择</h3>
+						<div class="form-group">
+							<div class="input-group date form_date " id="godate" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+								<input class="form-control" size="16" type="text" value="" readonly>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+							<input type="hidden" id="dtp_input2" value="" />
+							<br/>
+						</div>
+						<script type="text/javascript">
+							 //日期选择
+							$('.form_date').datetimepicker({
+								language: 'zh-CN',
+								weekStart: 1,
+								todayBtn: 1,
+								autoclose: 1,
+								todayHighlight: 1,
+								startView: 2,
+								minView: 2,
+								forceParse: 0
+							}).on('changeDate', function() {
+								new_url = document.getElementById('dtp_input2').value;
+								//      new_url = new_url.replace(/-/g,"");
+								//      new_url = new_url.substr(2);
+								window.location.href = "{:U('Work/dateChoose')}" + '&newDate=' + new_url;
+							});
+						</script>
+					</div>
+
+					<div class="sidebar-module sidebar-module-inset">
+						<h3>效果</h3>
+						<p>1.看事实，行动优先语言；
+							<br>2.看目标，没做到约等于没效果。
+							<br>3.基于目标，效果不充分可以用公众常识和逻辑做调整行动的依据。
+						</p>
+					</div>
+					<div class="sidebar-module">
+						<h3>存档</h3>
+						<ol class="list-unstyled">
+							<li><a href="/month/201506">2015年6月</a></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<include file="Public:footer" />

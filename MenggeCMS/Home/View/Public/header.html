@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+		<title>{$system_name}&系统</title>
+		<meta name="description" content="">
+		<meta name="author" content="镜一">
+
+		<link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="__CSS__/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+		<link href="__CSS__/page.css" rel="stylesheet" >
+		<link href="__CSS__/bootstrap-clockpicker.min.css" rel="stylesheet" media="screen">
+		<link href="__CSS__/bootstrap-switch.min.css" rel="stylesheet" media="screen">
+
+		<style type="text/css">
+			textarea {
+				resize: none;
+			}
+		</style>
+
+		<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+		<!--[if lt IE 9]><script src="__JS__/ie8-responsive-file-warning.js"></script><![endif]-->
+		<script src="__JS__/ie-emulation-modes-warning.js"></script>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+      <script src="__JS__/html5shiv.min.js"></script>
+      <script src="__JS__/respond.min.js"></script>
+    <![endif]-->
+		<script src="__JS__/jquery.min.js"></script>
+		<script src="__JS__/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<style>
+			/* Move down content because we have a fixed navbar that is 50px tall */
+			
+			body {
+				padding-top: 50px;
+				padding-bottom: 20px;
+			}
+			.jumbotron {
+				background-image: url(__IMG__/bg.png);
+				background-position: center;
+			}
+		</style>
+		<script src="__JS__/ie10-viewport-bug-workaround.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/jquery-clockpicker.min.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-switch.min.js" charset="UTF-8"></script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "//hm.baidu.com/hm.js?4e365af26d5b6519ebbac39e800c4b5f";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+
+	</head>
+
+	<body>
+
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">{$system_name}</a>
+
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<if condition="!empty($_SESSION['username'])">
+							<li <if condition="$controller eq Work">class = "active" </if> ><a href="{:U('Work/index')}">每日{$system_name}</a></li>
+						<li <if condition="$controller eq Community">class = "active" </if>><a href="{:U('Community/index')}">{$system_name}群组</a></li>
+						</if>
+						<!--<li><a href="">事件具象</a></li>
+						<li><a href="">人物具象</a></li>
+						<li><a href="">观察者具象</a></li>
+						<li><a href="">目标达成</a></li>
+						<li><a href="">具象心得</a></li>-->
+					</ul>
+					<if condition="empty($_COOKIE['username']) and empty($_SESSION['username'])">
+						<div class="navbar-form navbar-right">
+							<a type="button" href="{:U('public/userlogin')}" class="btn btn-success">登陆</a>
+							<a type="button" href="{:U('public/reg')}" class="btn btn-success">注册</a>
+						</div>
+					</if>
+
+					<if condition="!empty($_COOKIE['username']) or !empty($_SESSION['username'])">
+						<div class="navbar-form navbar-right">
+							<font style="color:white;">你好，{$_SESSION['username']}</font>&nbsp;&nbsp;&nbsp;
+							<a href="{:U('public/logout')}" class="btn btn-success">注销</a>
+						</div>
+					</if>
+
+				</div>
+				<!--/.navbar-collapse -->
+			</div>
+		</nav>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+		<title>具象法则俱乐部</title>
+		<meta name="description" content="">
+		<meta name="author" content="镜一">
+
+		<link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="__CSS__/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+		<link href="__CSS__/bootstrap-clockpicker.min.css" rel="stylesheet" media="screen">
+		<link href="__CSS__/bootstrap-switch.min.css" rel="stylesheet" media="screen">
+
+		<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+		<!--[if lt IE 9]><script src="__JS__/ie8-responsive-file-warning.js"></script><![endif]-->
+		<script src="__JS__/ie-emulation-modes-warning.js"></script>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+		<script src="http://ajax.useso.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="__JS__/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script src="__JS__/ie10-viewport-bug-workaround.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/jquery-clockpicker.min.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-switch.min.js" charset="UTF-8"></script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "//hm.baidu.com/hm.js?4e365af26d5b6519ebbac39e800c4b5f";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 days-main">
+					<h2>{$clientDate|date='Y年m月d日',###}(echo)</h2>
+					<table class="table table-bordered">
+						<caption>案例主体：{$row[0]['subject']}<span style="float:right;">目标：{$row[0]['target']}</span></caption>
+						<thead>
+							<tr>
+								<th>时间</th>
+								<th>行动（做、做到）</th>
+								<th>效果</th>
+								<th>启发</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+
+								<foreach name="rows" item="r">
+									<tr>
+										<td>{$r.starttime}
+											<br>～
+											<br>{$r.endtime}</td>
+										<td>{$r.actions}</td>
+										<td>{$r.results}</td>
+										<td>{$r.inspire}</td>
+									</tr>
+								</foreach>
+							</tr>
+						</tbody>
+
+					</table>
+					<p>总结：{$row[0]['summary']}</p>
+					<hr>
+				</div>
+			</div>
+			<footer>
+				<p>&copy; 2015 具象法则俱乐部</p>
+			</footer>
+		</div>
+		<!-- /container -->
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="http://ajax.useso.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script src="/assets/js/ie10-viewport-bug-workaround.js"></script>
+	</body>
+
+</html>

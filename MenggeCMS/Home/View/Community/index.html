@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<title>选择{$system_name}群组</title>
+		<meta name="description" content="">
+		<meta name="author" content="镜一">
+		<link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="__CSS__/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+		<link href="__CSS__/bootstrap-clockpicker.min.css" rel="stylesheet" media="screen">
+		<link href="__CSS__/bootstrap-switch.min.css" rel="stylesheet" media="screen">
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+		<!--[if lt IE 9]><script src="__JS__/ie8-responsive-file-warning.js"></script><![endif]-->
+		<script src="__JS__/ie-emulation-modes-warning.js"></script>
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+		<script src="http://ajax.useso.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="__JS__/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<style>
+			/* Move down content because we have a fixed navbar that is 50px tall */
+			body {
+				padding-top: 50px;
+				padding-bottom: 20px;
+			}
+			.jumbotron {
+				background-image: url(__IMG__/bg.png);
+				background-position: center;
+			}
+		</style>
+		<script src="__JS__/ie10-viewport-bug-workaround.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/jquery-clockpicker.min.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="__JS__/bootstrap-switch.min.js" charset="UTF-8"></script>
+	</head>
+
+	<body>
+
+		<nav class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<if condition="!empty($_SESSION['username'])">
+							<li <if condition = "$controller eq Community">class = "active" </if>><a href="{:U('Community/index')}">选择{$system_name}群组</a></li>
+						</if>
+					</ul>
+					<if condition="empty($_COOKIE['username']) and empty($_SESSION['username'])">
+						<form method="post" name="login" action="{:U('public/login')}" autoComplete="off" class="navbar-form navbar-right">
+							<input name="_token" value="SgDOkjPn0JtmI3mBG7g89cPfjyVATVqWnCj2nGzf" type="hidden" />
+							<div class="form-group">
+								<input name="email" placeholder="注册邮箱" class="form-control" type="text">
+							</div>
+							<div class="form-group">
+								<input name="password" placeholder="密码" class="form-control" type="password">
+							</div>
+							<button type="submit" class="btn btn-success">登陆</button>
+						</form>
+					</if>
+
+					<if condition="!empty($_COOKIE['username']) or !empty($_SESSION['username'])">
+						<div class="navbar-form navbar-right">
+							<font style="color:white;">你好，{$_SESSION['username']}</font>&nbsp;&nbsp;&nbsp;
+							<a href="{:U('public/logout')}" class="btn btn-success">注销</a>
+						</div>
+					</if>
+
+				</div>
+				<!--/.navbar-collapse -->
+			</div>
+		</nav>
+		
+<script>
+	//编辑开关
+	$("#my-checkbox").bootstrapSwitch();
+	$('#my-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+		if (state) window.location.href = "{:U('Work/index')}";
+		else window.location.href = "{:U('Work/edit')}";
+	});
+</script>
+<!-- Main jumbotron for a primary marketing message or call to action -->
+
+<div class="container">
+	<div class="days-header">
+		<h1 class="days-title">{$system_name}群组</h1>
+		<p class="lead days-description">{$system_name}群组列表</p>
+		<div class="row">
+			<div class="col-md-8 days-main">
+				<h4>选择{$system_name}群组</h4>
+				
+				<div class="container">
+				<div class="row">
+					<div class="col-sm-12 list-inline">
+						
+					<foreach name="row" item="r">	
+					<div class="col-sm-6 col-md-3">
+						<div class="thumbnail">
+							<img src="{$r.group_logo}" alt="群logo">
+							<div class="caption">
+								<h3>群名称：{$r.name}</h3>
+								<p>群介绍：{$r.group_intro}</p>
+								<p>群主：{$r.username}</p>
+								<p>群成员：{$r.usernum}/{$r.toplimit}</p>
+								<p><a href="{:U('Community/addComm','id='.$r['id'])}" class="btn btn-primary" role="button">加入</a> 
+							</div>
+						</div>
+					</div>
+					</foreach>
+					
+				</div>
+				
+				</div>
+				</div>
+			</div>
+			               <div class="col-md-3 col-md-offset-1 days-sidebar">
+          </div>
+        </div>
+      </div>
+	<include file="Public:footer" />
